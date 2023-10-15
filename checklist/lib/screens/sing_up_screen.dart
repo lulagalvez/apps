@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:checklist/users.dart';
+import 'package:proyecto_1/users.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
 class MyFormSingUp extends StatefulWidget {
@@ -25,91 +25,105 @@ class _MyFormState extends State<MyFormSingUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Registro'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: _signupUsernameController,
-                decoration: const InputDecoration(
-                    labelText: 'Usuario', hintText: 'Ej: Example1'),
-                validator: Validators.compose([
-                  Validators.required('Nombre de usuario requerido'),
-                  Validators.patternRegExp(
-                      RegExp(r'^[0-9a-zA-Z]+$'), 'Nombre de usuario inválido')
-                ]),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                controller: _signupPasswordController,
-                decoration: InputDecoration(
-                  hintText: 'Ej: SafePassword1',
-                  labelText: 'Contraseña',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },
-                  ),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/', ModalRoute.withName('/'));
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/', ModalRoute.withName('/'));
+            },
+          ),
+          title: const Text('Registro'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  controller: _signupUsernameController,
+                  decoration: const InputDecoration(
+                      labelText: 'Usuario', hintText: 'Ej: Example1'),
+                  validator: Validators.compose([
+                    Validators.required('Nombre de usuario requerido'),
+                    Validators.patternRegExp(
+                        RegExp(r'^[0-9a-zA-Z]+$'), 'Nombre de usuario inválido')
+                  ]),
                 ),
-                validator: Validators.compose([
-                  Validators.required('Contraseña requerida'),
-                  Validators.patternString(
-                      r'^[0-9a-zA-Z]+$', 'Contraseña inválida')
-                ]),
-                obscureText: !_isPasswordVisible,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                controller: _signupConfirmPasswordController,
-                decoration: InputDecoration(
-                    labelText: 'Confirmar contraseña',
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: _signupPasswordController,
+                  decoration: InputDecoration(
+                    hintText: 'Ej: SafePassword1',
+                    labelText: 'Contraseña',
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _isConfirmPasswordVisible
+                        _isPasswordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
                       ),
                       onPressed: () {
                         setState(() {
-                          _isConfirmPasswordVisible =
-                              !_isConfirmPasswordVisible;
+                          _isPasswordVisible = !_isPasswordVisible;
                         });
                       },
-                    )),
-                obscureText: !_isConfirmPasswordVisible,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                  controller: _signupNameController,
-                  decoration: const InputDecoration(labelText: 'Nombre'),
-                  validator: Validators.required('Nombre requerido')),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  _handleSignup(context);
-                },
-                child: const Text('Registrarse'),
-              ),
-            ],
+                    ),
+                  ),
+                  validator: Validators.compose([
+                    Validators.required('Contraseña requerida'),
+                    Validators.patternString(
+                        r'^[0-9a-zA-Z]+$', 'Contraseña inválida')
+                  ]),
+                  obscureText: !_isPasswordVisible,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: _signupConfirmPasswordController,
+                  decoration: InputDecoration(
+                      labelText: 'Confirmar contraseña',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _isConfirmPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isConfirmPasswordVisible =
+                                !_isConfirmPasswordVisible;
+                          });
+                        },
+                      )),
+                  obscureText: !_isConfirmPasswordVisible,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                    controller: _signupNameController,
+                    decoration: const InputDecoration(labelText: 'Nombre'),
+                    validator: Validators.required('Nombre requerido')),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    _handleSignup(context);
+                  },
+                  child: const Text('Registrarse'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -136,9 +150,7 @@ class _MyFormState extends State<MyFormSingUp> {
                     child: TextButton(
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, '/', ModalRoute.withName('/'),
-                            arguments: name);
-                        print('$name ESTE ES EL PRINT');
+                            context, '/', ModalRoute.withName('/'));
                       },
                       child: const Text('OK'),
                     ),
@@ -170,7 +182,6 @@ class _MyFormState extends State<MyFormSingUp> {
           );
         }
       } else {
-        // Las contraseñas no coinciden, mostrar mensaje de error
         showDialog(
           context: context,
           builder: (context) {
@@ -195,3 +206,4 @@ class _MyFormState extends State<MyFormSingUp> {
     }
   }
 }
+
