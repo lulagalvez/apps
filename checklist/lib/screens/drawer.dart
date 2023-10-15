@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_1/screens/login_screen.dart';
+import 'package:checklist/screens/login_screen.dart';
 
 // ignore: must_be_immutable
 class BarraLateral extends StatelessWidget {
   final String? name;
-  const BarraLateral({Key? key, required this.name}) : super(key: key);
+  final VoidCallback onNuevaTarea;
+  const BarraLateral({Key? key, required this.name, required this.onNuevaTarea})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -28,10 +30,7 @@ class BarraLateral extends StatelessWidget {
             title: const Text('Nueva Tarea'),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const MyFormLogin()), //cambiar ruteo
-              );
+              onNuevaTarea();
             },
           ),
           ListTile(
@@ -66,4 +65,3 @@ class BarraLateral extends StatelessWidget {
     );
   }
 }
-

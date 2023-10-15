@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_1/screens/drawer.dart';
+import 'package:checklist/screens/drawer.dart';
 // ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
@@ -45,6 +45,7 @@ class ToDoState extends State<ToDo> {
     return Scaffold(
       drawer: BarraLateral(
         name: widget.name,
+        onNuevaTarea: openNuevaTareaDialog,
       ),
       appBar: AppBar(title: const Text('Lista de cosas por hacer')),
       body: ListView(
@@ -328,5 +329,9 @@ class ToDoState extends State<ToDo> {
         );
       },
     );
+  }
+
+  void openNuevaTareaDialog() {
+    _displayDialog();
   }
 }

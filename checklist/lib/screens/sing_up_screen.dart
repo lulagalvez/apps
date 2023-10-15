@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_1/users.dart';
+import 'package:checklist/users.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
 class MyFormSingUp extends StatefulWidget {
@@ -206,4 +206,3 @@ class _MyFormState extends State<MyFormSingUp> {
     }
   }
 }
-

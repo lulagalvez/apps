@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_1/screens/blank.dart';
-import 'package:proyecto_1/users.dart';
+import 'package:checklist/screens/blank.dart';
+import 'package:checklist/users.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
 class MyFormLogin extends StatefulWidget {
