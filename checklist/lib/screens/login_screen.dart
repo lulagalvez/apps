@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:checklist/screens/blank.dart';
-import 'package:checklist/users.dart';
+import 'package:proyecto_1/screens/blank.dart';
+import 'package:proyecto_1/users.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
 class MyFormLogin extends StatefulWidget {
@@ -40,6 +40,7 @@ class _MyFormState extends State<MyFormLogin> {
               ),
               TextFormField(
                 controller: _loginPasswordController,
+                textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
                   labelText: 'Contraseña',
                   suffixIcon: IconButton(
@@ -70,7 +71,7 @@ class _MyFormState extends State<MyFormLogin> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/signup');
+                  Navigator.pushReplacementNamed(context, '/signup');
                 },
                 child: const Text('No tienes una cuenta? Regístrate aquí'),
               ),
@@ -84,14 +85,13 @@ class _MyFormState extends State<MyFormLogin> {
   void _handleLogin(BuildContext context) {
     String username = _loginUsernameController.text;
     String password = _loginPasswordController.text;
-    String? name = ModalRoute.of(context)?.settings.arguments as String?;
-    print('$name ESTE ES EL PRINT');
+    String? name = _userRepository.getFullNameByCredentials(username, password);
     if (_formKey.currentState!.validate()) {
       if (_userRepository.authenticateUser(username, password)) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ToDo(
+            builder: (context) => LoginSuccessScreen(
               name: name,
             ),
           ),
@@ -119,5 +119,6 @@ class _MyFormState extends State<MyFormLogin> {
         );
       }
     }
+    _formKey.currentState?.reset();
   }
 }
