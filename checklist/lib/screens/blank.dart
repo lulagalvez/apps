@@ -46,6 +46,7 @@ class ToDoState extends State<ToDo> {
       drawer: BarraLateral(
         name: widget.name,
         onNuevaTarea: openNuevaTareaDialog,
+        onEliminarTareas: eliminarTareas,
       ),
       appBar: AppBar(title: const Text('Lista de cosas por hacer')),
       body: ListView(
@@ -333,5 +334,14 @@ class ToDoState extends State<ToDo> {
 
   void openNuevaTareaDialog() {
     _displayDialog();
+  }
+
+  void eliminarTareas() {
+    setState(() {
+      while (_todoList.isNotEmpty) {
+        _todoList.removeAt(0);
+      }
+      saveTodoList(_todoList);
+    });
   }
 }

@@ -5,7 +5,12 @@ import 'package:checklist/screens/login_screen.dart';
 class BarraLateral extends StatelessWidget {
   final String? name;
   final VoidCallback onNuevaTarea;
-  const BarraLateral({Key? key, required this.name, required this.onNuevaTarea})
+  final VoidCallback onEliminarTareas;
+  const BarraLateral(
+      {Key? key,
+      required this.name,
+      required this.onNuevaTarea,
+      required this.onEliminarTareas})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -37,10 +42,7 @@ class BarraLateral extends StatelessWidget {
             title: const Text('Borrar Todo'),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const MyFormLogin()), //cambiar ruteo
-              );
+              onEliminarTareas();
             },
           ),
           ListTile(
