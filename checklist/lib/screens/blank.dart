@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:checklist/screens/drawer.dart';
+import 'package:proyecto_1/screens/drawer.dart';
+// ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wc_form_validators/wc_form_validators.dart';
 
 const List<Widget> categories = <Widget>[
   Icon(Icons.code),
@@ -24,6 +26,7 @@ class ToDoState extends State<ToDo> {
   final TextEditingController _textFieldController1 = TextEditingController();
   final TextEditingController _textFieldController2 = TextEditingController();
   final List<bool> _selectedCategories = <bool>[false, false, false, false];
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -212,58 +215,64 @@ class ToDoState extends State<ToDo> {
       builder: (BuildContext context) {
         return StatefulBuilder(builder: (context, StateSetter setState) {
           return AlertDialog(
+            insetPadding: const EdgeInsets.all(12),
             title: const Text('Agregar nuevo elemento'),
-            content: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => _selectStartDate(context),
-                      child: const Text('Fecha de Inicio'),
-                    ),
-                    const SizedBox(width: 16),
-                    ElevatedButton(
-                      onPressed: () => _selectEndDate(context),
-                      child: const Text('Fecha de Termino'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                const Text("Nombre"),
-                TextField(
-                  controller: _textFieldController1,
-                  decoration:
-                      const InputDecoration(hintText: 'Escribe el título'),
-                ),
-                const SizedBox(height: 8),
-                const Text("Descripción"),
-                TextField(
-                  controller: _textFieldController2,
-                  decoration: const InputDecoration(
-                      hintText: 'Escribe una descripción'),
-                ),
-                const SizedBox(height: 8),
-                ToggleButtons(
-                  onPressed: (int index) {
-                    setState(() {
-                      _selectedCategories[index] = !_selectedCategories[index];
-                    });
-                  },
-                  selectedColor: Colors.white,
-                  fillColor: Colors.green[200],
-                  color: Colors.black,
-                  isSelected: _selectedCategories,
-                  children: categories,
-                ),
-              ],
+            content: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => _selectStartDate(context),
+                        child: const Text('Fecha de Inicio'),
+                      ),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: () => _selectEndDate(context),
+                        child: const Text('Fecha de Termino'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  const Text("Nombres"),
+                  TextFormField(
+                    validator: Validators.required('Título requerido'),
+                    controller: _textFieldController1,
+                    decoration:
+                        const InputDecoration(hintText: 'Escribe el título'),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text("Descripción"),
+                  TextField(
+                    controller: _textFieldController2,
+                    decoration: const InputDecoration(
+                        hintText: 'Escribe una descripción'),
+                  ),
+                  const SizedBox(height: 8),
+                  ToggleButtons(
+                    onPressed: (int index) {
+                      setState(() {
+                        _selectedCategories[index] =
+                            !_selectedCategories[index];
+                      });
+                    },
+                    selectedColor: Colors.white,
+                    fillColor: Colors.green[200],
+                    color: Colors.black,
+                    isSelected: _selectedCategories,
+                    children: categories,
+                  ),
+                ],
+              ),
             ),
             actions: <Widget>[
               TextButton(
                 child: const Text('Add'),
                 onPressed: () {
-                  if (_textFieldController1.text.isNotEmpty) {
+                  if (_formKey.currentState!.validate()) {
                     Navigator.of(context).pop();
                     _addTodoItem(
                         _textFieldController1.text,
