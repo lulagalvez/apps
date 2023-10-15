@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_1/screens/login_screen.dart';
 
 // ignore: must_be_immutable
 class BarraLateral extends StatelessWidget {
@@ -7,30 +8,62 @@ class BarraLateral extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-        color: Colors.cyan,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            ListTile(
-              title: Text("$name"),
-              onTap: () {},
+      child: ListView(
+        children: <Widget>[
+          DrawerHeader(
+            decoration: const BoxDecoration(
+              color: Colors.blue,
             ),
-            ListTile(
-              title: Text("Opcion 2"),
-              onTap: () {},
+            child: Center(
+              child: Text(
+                '$name',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
             ),
-            ListTile(
-              title: Text("Opcion 3"),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text("Opcion 4"),
-              onTap: () {},
-            )
-          ],
-        ),
+          ),
+          ListTile(
+            title: const Text('Nueva Tarea'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => const MyFormLogin()), //cambiar ruteo
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Borrar Todo'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => const MyFormLogin()), //cambiar ruteo
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Acerca De'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => const MyFormLogin()), // Acerda De
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Salir'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.popUntil(context, ModalRoute.withName('/'));
+            },
+          ),
+        ],
       ),
     );
   }
 }
+
