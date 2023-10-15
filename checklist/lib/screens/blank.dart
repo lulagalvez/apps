@@ -51,10 +51,6 @@ class ToDoState extends State<ToDo> {
       appBar: AppBar(title: const Text('Lista de cosas por hacer')),
       body: ListView(
           padding: const EdgeInsets.only(bottom: 16.0), children: _getItems()),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => _displayDialog(),
-          tooltip: 'Add Item',
-          child: const Icon(Icons.add)),
     );
   }
 
